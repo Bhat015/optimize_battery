@@ -32,7 +32,7 @@ Check for application battery optimization status and open settings or disable i
 
 This opens the battery optimization disable dialog.
 
-![Example](example_screenshot.png)
+![Example](example_screenshot.png?raw=true)
 
 Add the permission in Mainfest file
 ```

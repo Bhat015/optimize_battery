@@ -36,6 +36,7 @@ class _MyAppState extends State<MyApp> {
                     child:
                         const Text("Check if battery optimization is enabled"),
                     onPressed: () async {
+                      //Check if battery optimization is enabled
                       final isIgnored = await OptimizeBattery
                           .isIgnoringBatteryOptimizations();
                       setState(() {
@@ -50,6 +51,7 @@ class _MyAppState extends State<MyApp> {
                 ElevatedButton(
                   child: const Text("Open Battery Optimisation Settings"),
                   onPressed: () =>
+                      // Open battery optimization settings
                       OptimizeBattery.openBatteryOptimizationSettings(),
                 ),
                 const SizedBox(height: 20),
@@ -58,6 +60,7 @@ class _MyAppState extends State<MyApp> {
                 ElevatedButton(
                     child: const Text("Disable Battery Optimisation"),
                     onPressed: () async {
+                      //Stops the battery optimization
                       await OptimizeBattery.stopOptimizingBatteryUsage();
                       setState(() {
                         isBatterIgnoredText = "Unknown";
