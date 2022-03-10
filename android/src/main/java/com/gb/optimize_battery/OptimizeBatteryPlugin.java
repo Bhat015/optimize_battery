@@ -58,10 +58,11 @@ public class OptimizeBatteryPlugin implements FlutterPlugin, MethodCallHandler, 
             case "isIgnoringBatteryOptimizations":
                 boolean isIgnoring = isIgnoringBatteryOptimizations();
                 result.success(isIgnoring);
-                return;
+                break;
             case "stopOptimizingBatteryUsage":
                 Boolean response = stopOptimizingBatteryUsage();
                 result.success(response);
+                break;
             default:
                 result.notImplemented();
                 break;
@@ -72,12 +73,19 @@ public class OptimizeBatteryPlugin implements FlutterPlugin, MethodCallHandler, 
         // return true if sdk version is below 23
         if (android.os.Build.VERSION.SDK_INT < 23)
             return true;
-        Intent intent = new Intent();
-        String packageName = context.getPackageName();
-        intent.setAction(Settings.ACTION_REQUEST_IGNORE_BATTERY_OPTIMIZATIONS);
-        intent.setData(Uri.parse("package:" + packageName));
-        activity.startActivity(intent);
-        return true;
+
+        try {
+            Intent intent = new Intent();
+            String packageName = context.getPackageName();
+            intent.setAction(Settings.ACTION_REQUEST_IGNORE_BATTERY_OPTIMIZATIONS);
+            intent.setData(Uri.parse("package:" + packageName));
+            activity.startActivity(intent);
+
+            return true;
+        }
+        catch (ActivityNotFoundException e) {
+            return false;
+        }
     }
 
     boolean isIgnoringBatteryOptimizations() {
@@ -86,12 +94,9 @@ public class OptimizeBatteryPlugin implements FlutterPlugin, MethodCallHandler, 
             return true;
         String packageName = context.getPackageName();
         PowerManager mPowerManager = (PowerManager) (context.getSystemService(POWER_SERVICE));
+
         // ---- If ignore go to settings, else request ----
-        if (mPowerManager.isIgnoringBatteryOptimizations(packageName)) {
-            return true;
-        } else {
-            return false;
-        }
+        return mPowerManager.isIgnoringBatteryOptimizations(packageName);
     }
 
     Status openBatteryOptimizationSettings() {
