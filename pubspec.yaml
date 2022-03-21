@@ -1,6 +1,6 @@
 name: optimize_battery
 description: Check for battery optimization status and open settings or disable it
-version: 0.0.2
+version: 0.0.3
 homepage: https://github.com/Bhat015/optimize_battery
 
 environment:
